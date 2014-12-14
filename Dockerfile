@@ -28,30 +28,32 @@ RUN apt-get update && \
 # Setting Up ENV
 ENV MODULE_DIR /usr/src/nginx-modules
 
+# Create Module Directory
+RUN mkdir ${MODULE_DIR}
+
 # Download Source
 RUN cd /usr/src && \
     wget -q http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
     tar xzf nginx-${NGINX_VERSION}.tar.gz && \
-    rm -rf nginx-${NGINX_VERSION}.tar.gz
+    rm -rf nginx-${NGINX_VERSION}.tar.gz && \
 
-RUN cd /usr/src && \
+    cd /usr/src && \
     wget -q http://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz && \
     tar xzf openssl-${OPENSSL_VERSION}.tar.gz && \
-    rm -rf openssl-${OPENSSL_VERSION}.tar.gz
+    rm -rf openssl-${OPENSSL_VERSION}.tar.gz && \
 
-# Install Addational Module
-RUN mkdir ${MODULE_DIR}
-RUN cd ${MODULE_DIR} && \
+    # Install Addational Module
+    cd ${MODULE_DIR} && \
     wget -q --no-check-certificate https://github.com/pagespeed/ngx_pagespeed/archive/release-${NPS_VERSION}-beta.tar.gz && \
     tar zxf release-${NPS_VERSION}-beta.tar.gz && \
     rm -rf release-${NPS_VERSION}-beta.tar.gz && \
     cd ngx_pagespeed-release-${NPS_VERSION}-beta/ && \
     wget -q --no-check-certificate https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz && \
     tar zxf ${NPS_VERSION}.tar.gz && \
-    rm -rf ${NPS_VERSION}.tar.gz
+    rm -rf ${NPS_VERSION}.tar.gz && \
 
-# Compile Nginx
-RUN cd /usr/src/nginx-${NGINX_VERSION} && \
+    # Compile Nginx
+    cd /usr/src/nginx-${NGINX_VERSION} && \
     ./configure \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
@@ -73,15 +75,16 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && \
     --with-sha1=/usr/include/openssl \
     --with-md5=/usr/include/openssl \
     --with-openssl="../openssl-${OPENSSL_VERSION}" \
-    --add-module=${MODULE_DIR}/ngx_pagespeed-release-${NPS_VERSION}-beta
+    --add-module=${MODULE_DIR}/ngx_pagespeed-release-${NPS_VERSION}-beta && \
 
-RUN cd /usr/src/nginx-${NGINX_VERSION} && \
-    make && make install
+    # Install Nginx
+    cd /usr/src/nginx-${NGINX_VERSION} && \
+    make && make install && \
+
+    # Clear source code to reduce container size
+    rm -rf /usr/src/*
 
 ADD conf/nginx.conf /etc/nginx/nginx.conf
-
-# Clear source code to reduce container size
-RUN rm -rf /usr/src/*
 
 # Forward requests and errors to docker logs
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
