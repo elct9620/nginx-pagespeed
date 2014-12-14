@@ -78,11 +78,13 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && \
 RUN cd /usr/src/nginx-${NGINX_VERSION} && \
     make && make install
 
+ADD conf/nginx.conf /etc/nginx/nginx.conf
+
 # Forward requests and errors to docker logs
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
-VOLUME ["/var/cache/nginx"]
+VOLUME ["/var/cache/nginx", "/var/cache/ngx_pagespeed"]
 
 EXPOSE 80 443
 
