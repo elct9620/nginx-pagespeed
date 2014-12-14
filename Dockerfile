@@ -81,8 +81,7 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && \
 ADD conf/nginx.conf /etc/nginx/nginx.conf
 
 # Clear source code to reduce container size
-RUN rm -rf /usr/src/nginx-${NPS_VERSION} && \
-    rm -rf ${MODULE_DIR}
+RUN rm -rf /usr/src/*
 
 # Forward requests and errors to docker logs
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
