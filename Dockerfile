@@ -30,23 +30,23 @@ ENV MODULE_DIR /usr/src/nginx-modules
 
 # Download Source
 RUN cd /usr/src && \
-    wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
+    wget -q http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
     tar xzf nginx-${NGINX_VERSION}.tar.gz && \
     rm -rf nginx-${NGINX_VERSION}.tar.gz
 
 RUN cd /usr/src && \
-    wget http://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz && \
+    wget -q http://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz && \
     tar xzf openssl-${OPENSSL_VERSION}.tar.gz && \
     rm -rf openssl-${OPENSSL_VERSION}.tar.gz
 
 # Install Addational Module
 RUN mkdir ${MODULE_DIR}
 RUN cd ${MODULE_DIR} && \
-    wget --no-check-certificate https://github.com/pagespeed/ngx_pagespeed/archive/release-${NPS_VERSION}-beta.tar.gz && \
+    wget -q --no-check-certificate https://github.com/pagespeed/ngx_pagespeed/archive/release-${NPS_VERSION}-beta.tar.gz && \
     tar zxf release-${NPS_VERSION}-beta.tar.gz && \
     rm -rf release-${NPS_VERSION}-beta.tar.gz && \
     cd ngx_pagespeed-release-${NPS_VERSION}-beta/ && \
-    wget --no-check-certificate https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz && \
+    wget -q --no-check-certificate https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz && \
     tar zxf ${NPS_VERSION}.tar.gz && \
     rm -rf ${NPS_VERSION}.tar.gz
 
