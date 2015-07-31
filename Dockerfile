@@ -7,9 +7,9 @@ FROM debian:wheezy
 MAINTAINER 蒼時弦也 "docker@frost.tw"
 
 # Version
-ENV NGINX_VERSION 1.7.8
-ENV NPS_VERSION 1.9.32.2
-ENV OPENSSL_VERSION 1.0.1j
+ENV NGINX_VERSION 1.8.0
+ENV NPS_VERSION 1.9.32.6
+ENV OPENSSL_VERSION 1.0.1p
 
 # Install Build Tools & Dependence
 RUN echo "deb-src http://http.debian.net/debian wheezy main\ndeb-src http://http.debian.net/debian wheezy-updates main\ndeb-src http://security.debian.org/ wheezy/updates main" >> /etc/apt/sources.list
