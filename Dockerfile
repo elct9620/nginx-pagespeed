@@ -15,7 +15,7 @@ ENV OPENSSL_VERSION 1.0.1p
 RUN echo "deb-src http://http.debian.net/debian wheezy main\ndeb-src http://http.debian.net/debian wheezy-updates main\ndeb-src http://security.debian.org/ wheezy/updates main" >> /etc/apt/sources.list
 
 RUN apt-get update && \
-    apt-get build-dep nginx-full -y && \
+    apt-get autotools-dev build-dep nginx-full -y && \
     apt-get install -y build-essential zlib1g-dev libpcre3 libpcre3-dev && \
     apt-get install wget -y && \
     apt-get clean && \
