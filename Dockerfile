@@ -74,7 +74,6 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main\n \
     --with-http_gzip_static_module \
     --with-http_secure_link_module \
     --with-http_v2_module
-    --with-file-aio \
     --with-ipv6 \
     --with-sha1=/usr/include/openssl \
     --with-md5=/usr/include/openssl \
