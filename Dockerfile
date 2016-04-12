@@ -12,7 +12,11 @@ ENV NPS_VERSION 1.9.32.6
 ENV OPENSSL_VERSION 1.0.1p
 
 # Install Build Tools & Dependence
-RUN echo "deb-src http://http.debian.net/debian wheezy main\ndeb-src http://http.debian.net/debian wheezy-updates main\ndeb-src http://security.debian.org/ wheezy/updates main" >> /etc/apt/sources.list
+RUN echo "deb-src http://http.debian.net/debian wheezy main\n
+          deb-src http://http.debian.net/debian wheezy-updates main\n
+          deb-src http://security.debian.org/ wheezy/updates main\n
+          deb http://http.debian.net/debian wheezy-backports main\n
+          deb-src http://http.debian.net/debian wheezy-backports main" >> /etc/apt/sources.list
 
 RUN apt-get update && \
     apt-get -t wheezy-backports build-dep nginx -y && \
