@@ -7,36 +7,36 @@ FROM debian:wheezy
 MAINTAINER 蒼時弦也 "docker@frost.tw"
 
 # Version
-ENV NGINX_VERSION 1.8.0
-ENV NPS_VERSION 1.9.32.6
+ENV NGINX_VERSION 1.9.14
+ENV NPS_VERSION 1.11.33.0
 ENV OPENSSL_VERSION 1.0.1p
+
+# Setup Environment
+ENV MODULE_DIR /usr/src/nginx-modules
 
 # Install Build Tools & Dependence
 RUN echo "deb-src http://http.debian.net/debian wheezy main\n \
           deb-src http://http.debian.net/debian wheezy-updates main\n \
           deb-src http://security.debian.org/ wheezy/updates main\n \
           deb http://http.debian.net/debian wheezy-backports main\n \
-          deb-src http://http.debian.net/debian wheezy-backports main" >> /etc/apt/sources.list
+          deb-src http://http.debian.net/debian wheezy-backports main" >> /etc/apt/sources.list && \
 
-RUN apt-get update && \
+    apt-get update && \
     apt-get -t wheezy-backports build-dep nginx -y && \
     apt-get install -y build-essential zlib1g-dev libpcre3 libpcre3-dev && \
     apt-get install wget -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
 
-# ===========
-# Build Nginx
-# ===========
+    # ===========
+    # Build Nginx
+    # ===========
 
-# Setting Up ENV
-ENV MODULE_DIR /usr/src/nginx-modules
+    # Create Module Directory
+    mkdir ${MODULE_DIR} && \
 
-# Create Module Directory
-RUN mkdir ${MODULE_DIR}
-
-# Download Source
-RUN cd /usr/src && \
+    # Downloading Source
+    cd /usr/src && \
     wget -q http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
     tar xzf nginx-${NGINX_VERSION}.tar.gz && \
     rm -rf nginx-${NGINX_VERSION}.tar.gz && \
@@ -73,7 +73,7 @@ RUN cd /usr/src && \
     --with-http_gunzip_module \
     --with-http_gzip_static_module \
     --with-http_secure_link_module \
-    --with-http_spdy_module \
+    --with-http_v2_module
     --with-file-aio \
     --with-ipv6 \
     --with-sha1=/usr/include/openssl \
