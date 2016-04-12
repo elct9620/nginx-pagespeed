@@ -71,7 +71,7 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main\n \
     --with-http_gunzip_module \
     --with-http_gzip_static_module \
     --with-http_secure_link_module \
-    --with-http_v2_module
+    --with-http_v2_module \
     --with-openssl="../openssl-${OPENSSL_VERSION}" \
     --add-module=${MODULE_DIR}/ngx_pagespeed-release-${NPS_VERSION}-beta && \
 
