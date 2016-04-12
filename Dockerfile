@@ -2,7 +2,7 @@
 # Nginx with Pagespeed
 ###
 
-FROM debian:wheezy
+FROM debian:jessie
 
 MAINTAINER 蒼時弦也 "docker@frost.tw"
 
@@ -15,14 +15,14 @@ ENV OPENSSL_VERSION 1.0.1p
 ENV MODULE_DIR /usr/src/nginx-modules
 
 # Install Build Tools & Dependence
-RUN echo "deb-src http://http.debian.net/debian wheezy main\n \
-          deb-src http://http.debian.net/debian wheezy-updates main\n \
-          deb-src http://security.debian.org/ wheezy/updates main\n \
-          deb http://http.debian.net/debian wheezy-backports main\n \
-          deb-src http://http.debian.net/debian wheezy-backports main" >> /etc/apt/sources.list && \
+RUN echo "deb-src http://http.debian.net/debian jessie main\n \
+          deb-src http://http.debian.net/debian jessie-updates main\n \
+          deb-src http://security.debian.org/ jessie/updates main\n \
+          deb http://http.debian.net/debian jessie-backports main\n \
+          deb-src http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list && \
 
     apt-get update && \
-    apt-get -t wheezy-backports build-dep nginx -y && \
+    apt-get -t jessie-backports build-dep nginx -y && \
     apt-get install -y build-essential zlib1g-dev libpcre3 libpcre3-dev && \
     apt-get install wget -y && \
     apt-get clean && \
