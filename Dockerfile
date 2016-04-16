@@ -88,9 +88,12 @@ ADD conf/nginx.conf /etc/nginx/nginx.conf
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
-VOLUME ["/var/cache/nginx", "/var/cache/ngx_pagespeed"]
+VOLUME ["/var/cache/nginx", "/var/cache/ngx_pagespeed", "/var/www/html"]
+
+COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 80 443
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 
