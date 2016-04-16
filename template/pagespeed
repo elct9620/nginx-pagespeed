@@ -1,0 +1,10 @@
+# PageSpeed
+pagespeed {{PAGESPEED_ENABLE}};
+pagespeed RewriteLevel {{PAGESPEED_REWRITE_LEVEL}};
+pagespeed FileCachePath /var/cache/ngx_pagespeed;
+
+location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.]{10}\.[^.]+" {
+  add_header "" "";
+}
+
+pagespeed XHeaderValue "{{PAGESPEED_HEADER}}";

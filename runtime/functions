@@ -1,0 +1,73 @@
+#!/bin/bash
+
+set -e
+
+source ${NGINX_RUNTIME_DIR}/envs-default
+
+generate_config() {
+  local FILE=${1?missing argument}
+  shift
+
+  local DEST=${1?-1}
+  shift
+
+  [[ ! -f ${FILE} ]] && return 1
+  [[ ${DEST} == -1 ]] && return 1
+
+  local TEMP=$(mktemp)
+
+  echo "Generate config ${DEST} use ${FILE} as template..."
+
+  local VARIABLES=($@)
+  cp -a "${FILE}" ${TEMP}
+
+  local variable
+  for variable in ${VARIABLES[@]}; do
+    sed -ri "s/[{]{2}$variable[}]{2}/\${$variable}/g" ${TEMP}
+  done
+
+  (
+    export ${VARIABLES[@]}
+    local IFS=":"; envsubst "${VARIABLES[*]/#/$}" < ${TEMP} > ${DEST}
+  )
+
+  rm -rf ${TEMP}
+}
+
+install_pagespeed() {
+  generate_config ${NGINX_TEMPLATE_DIR}/pagespeed ${CONF_DIR}/pagespeed \
+    PAGESPEED_ENABLE PAGESPEED_HEADER PAGESPEED_REWRITE_LEVEL
+}
+
+setup_config() {
+  local MODE="default"
+  local CONF_DIR="/etc/nginx/conf.d"
+  local DEST="${CONF_DIR}/default.conf"
+
+  if [[ ! -z ${FASTCGI_HOST} ]]; then
+    echo "FastCGI detected, enable FastCGI"
+    MODE="fastcgi"
+  fi
+
+  install_pagespeed
+
+  case $MODE in
+    "default")
+      generate_config ${NGINX_TEMPLATE_DIR}/default ${DEST} \
+        SERVER_NAME \
+        DOCUMENT_ROOT \
+        INDEX_FILES
+      ;;
+
+    "fastcgi")
+      generate_config ${NGINX_TEMPLATE_DIR}/fastcgi ${DEST} \
+        SERVER_NAME \
+        DOCUMENT_ROOT \
+        INDEX_FILES \
+        FASTCGI_HOST \
+        FASTCGI_PORT \
+        FASTCGI_ROOT \
+        FASTCGI_INDEX
+      ;;
+  esac
+}
