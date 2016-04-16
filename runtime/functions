@@ -61,13 +61,9 @@ setup_config() {
 
     "fastcgi")
       generate_config ${NGINX_TEMPLATE_DIR}/fastcgi ${DEST} \
-        SERVER_NAME \
-        DOCUMENT_ROOT \
-        INDEX_FILES \
-        FASTCGI_HOST \
-        FASTCGI_PORT \
-        FASTCGI_ROOT \
-        FASTCGI_INDEX
+        SERVER_NAME DOCUMENT_ROOT INDEX_FILES ALLOW_ORIGIN \
+        FASTCGI_HOST FASTCGI_PORT FASTCGI_ROOT FASTCGI_INDEX \
+        CACHE_LEVEL CACHE_ZONE_SIZE CACHE_INACTIVE_TIME
       ;;
   esac
 }
