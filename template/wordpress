@@ -13,16 +13,12 @@ server {
 
     listen       80;
     server_name  {{SERVER_NAME}};
+    root         {{DOCUMENT_ROOT}};
 
     include conf.d/pagespeed;
 
     #charset koi8-r;
     #access_log  /var/log/nginx/log/host.access.log  main;
-
-    location / {
-        root   {{DOCUMENT_ROOT}};
-        index  index.html index.htm {{INDEX_FILES}};
-    }
 
     include conf.d/*.ext;
 
@@ -44,8 +40,7 @@ server {
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
     #
     location ~ \.php$ {
-        root           {{FASTCGI_ROOT}};
-        try_files      $uri = 404;
+        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
         fastcgi_pass   {{FASTCGI_HOST}}:{{FASTCGI_PORT}};
         fastcgi_index  {{FASTCGI_INDEX}};
         fastcgi_param  SCRIPT_FILENAME  {{FASTCGI_ROOT}}$fastcgi_script_name;

@@ -87,6 +87,8 @@ RUN echo "deb-src http://httpredir.debian.org/debian jessie main\n \
     && mkdir -p /var/www/html  \
     && mkdir -p /etc/nginx/conf.d  \
     && mkdir -p /usr/share/nginx/html \
+    && mkdir -p /var/cache/nginx \
+    && mkdir -p /var/cache/ngx_pagespeed \
     && install -m644 html/index.html /var/www/html  \
     && install -m644 html/50x.html /usr/share/nginx/html \
 
