@@ -44,6 +44,7 @@ server {
         fastcgi_pass   {{FASTCGI_HOST}}:{{FASTCGI_PORT}};
         fastcgi_index  {{FASTCGI_INDEX}};
         fastcgi_param  SCRIPT_FILENAME  {{FASTCGI_ROOT}}$fastcgi_script_name;
+        fastcgi_param  HTTP_HOST $host;
         fastcgi_cache  APP;
         fastcgi_cache_valid 200 302 60m;
         fastcgi_cache_valid 404 1m;
