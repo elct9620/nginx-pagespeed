@@ -12,7 +12,7 @@ server {
         index  index.html index.htm {{INDEX_FILES}};
     }
 
-    client_max_body_size {{UPLOAD_MAX_SIZE}}
+    client_max_body_size {{UPLOAD_MAX_SIZE}};
 
     #error_page  404              /404.html;
 
