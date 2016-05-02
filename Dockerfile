@@ -7,9 +7,9 @@ FROM debian:jessie
 MAINTAINER 蒼時弦也 "docker@frost.tw"
 
 # Version
-ENV NGINX_VERSION 1.9.14
+ENV NGINX_VERSION 1.10.0
 ENV NPS_VERSION 1.11.33.0
-ENV OPENSSL_VERSION 1.0.1p
+ENV OPENSSL_VERSION 1.0.2g
 
 # Setup Environment
 ENV MODULE_DIR /usr/src/nginx-modules
@@ -24,7 +24,7 @@ RUN echo "deb-src http://httpredir.debian.org/debian jessie main\n \
           deb-src http://httpredir.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \
 
     apt-get update && \
-    apt-get -t jessie-backports build-dep nginx -y && \
+    apt-get -t jessie-backports build-dep nginx -y --fix-missing && \
     apt-get install -y build-essential zlib1g-dev libpcre3 libpcre3-dev && \
     apt-get install wget -y && \
     apt-get clean && \
