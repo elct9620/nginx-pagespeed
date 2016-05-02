@@ -25,6 +25,8 @@ server {
         index  index.html index.htm {{INDEX_FILES}};
     }
 
+    client_max_body_size {{UPLOAD_MAX_SIZE}}
+
     include conf.d/*.ext;
 
     #error_page  404              /404.html;

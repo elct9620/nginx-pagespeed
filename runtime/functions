@@ -73,21 +73,24 @@ setup_config() {
       generate_config ${NGINX_TEMPLATE_DIR}/default ${DEST} \
         SERVER_NAME \
         DOCUMENT_ROOT \
-        INDEX_FILES
+        INDEX_FILES \
+        UPLOAD_MAX_SIZE
       ;;
 
     "fastcgi")
       generate_config ${NGINX_TEMPLATE_DIR}/fastcgi ${DEST} \
         SERVER_NAME DOCUMENT_ROOT INDEX_FILES ALLOW_ORIGIN \
         FASTCGI_HOST FASTCGI_PORT FASTCGI_ROOT FASTCGI_INDEX \
-        CACHE_LEVEL CACHE_ZONE_SIZE CACHE_INACTIVE_TIME
+        CACHE_LEVEL CACHE_ZONE_SIZE CACHE_INACTIVE_TIME \
+        UPLOAD_MAX_SIZE
       ;;
     "wordpress")
       # TODO: Should use extension to generate this
       generate_config ${NGINX_TEMPLATE_DIR}/wordpress ${DEST} \
         SERVER_NAME DOCUMENT_ROOT INDEX_FILES ALLOW_ORIGIN \
         FASTCGI_HOST FASTCGI_PORT FASTCGI_ROOT FASTCGI_INDEX \
-        CACHE_LEVEL CACHE_ZONE_SIZE CACHE_INACTIVE_TIME
+        CACHE_LEVEL CACHE_ZONE_SIZE CACHE_INACTIVE_TIME \
+        UPLOAD_MAX_SIZE
       ;;
   esac
 }

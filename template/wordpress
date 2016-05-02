@@ -53,6 +53,8 @@ server {
         include        fastcgi_params;
     }
 
+    client_max_body_size {{UPLOAD_MAX_SIZE}}
+
     add_header X-Cache $upstream_cache_status;
     add_header Access-Control-Allow-Origin {{ALLOW_ORIGIN}};
 
