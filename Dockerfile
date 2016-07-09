@@ -15,6 +15,7 @@ ENV OPENSSL_VERSION 1.0.2g
 ENV MODULE_DIR /usr/src/nginx-modules
 ENV NGINX_TEMPLATE_DIR /usr/src/nginx
 ENV NGINX_RUNTIME_DIR /usr/src/runtime
+ENV SSL_CERTS_DIR /usr/certs
 
 # Install Build Tools & Dependence
 RUN echo "deb-src http://httpredir.debian.org/debian jessie main\n \
@@ -95,13 +96,14 @@ RUN echo "deb-src http://httpredir.debian.org/debian jessie main\n \
     # Clear source code to reduce container size
     && rm -rf /usr/src/* \
     && mkdir -p ${NGINX_TEMPLATE_DIR} \
-    && mkdir -p ${NGINX_RUNTIME_DIR}
+    && mkdir -p ${NGINX_RUNTIME_DIR} \
+    && mkdir -p ${SSL_CERTS_DIR}
 
 # Forward requests and errors to docker logs
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
-VOLUME ["/var/cache/nginx", "/var/cache/ngx_pagespeed", "/var/www/html"]
+VOLUME ["/var/cache/nginx", "/var/cache/ngx_pagespeed", "/var/www/html", "/usr/certs"]
 
 COPY nginx.conf /etc/nginx/nginx.conf
 

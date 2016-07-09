@@ -54,6 +54,7 @@ setup_config() {
   local MODE="default"
   local CONF_DIR="/etc/nginx/conf.d"
   local DEST="${CONF_DIR}/default.conf"
+  local SSL_DEST="${CONF_DIR}/ssl.conf"
 
   if [[ ! -z ${FASTCGI_HOST} ]]; then
     echo "FastCGI detected, enable FastCGI"
@@ -91,6 +92,17 @@ setup_config() {
         FASTCGI_HOST FASTCGI_PORT FASTCGI_ROOT FASTCGI_INDEX \
         CACHE_LEVEL CACHE_ZONE_SIZE CACHE_INACTIVE_TIME \
         UPLOAD_MAX_SIZE
+
+      if [[ ${SSL_ENABLED} == "yes" ]]; then
+        generate_config ${NGINX_TEMPLATE_DIR}/wordpress_ssl ${SSL_DEST} \
+          SERVER_NAME DOCUMENT_ROOT INDEX_FILES ALLOW_ORIGIN \
+          FASTCGI_HOST FASTCGI_PORT FASTCGI_ROOT FASTCGI_INDEX \
+          CACHE_LEVEL CACHE_ZONE_SIZE CACHE_INACTIVE_TIME \
+          UPLOAD_MAX_SIZE \
+          SSL_CIPHERS SSL_KEY_PATH SSL_DHPARAM_PATH SSL_VERIFY_CLIENT SSL_CERTIFICATE_PATH SSL_CA_CERTIFICATE_PATH \
+          NGINX_HSTS_MAXAGE NGINX_ACCEL_BUFFERING
+      fi
+
       ;;
   esac
 }
