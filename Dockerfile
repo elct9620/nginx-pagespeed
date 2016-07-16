@@ -2,12 +2,12 @@
 # Nginx with Pagespeed
 ###
 
-FROM debian:jessie
+FROM ubuntu:trusty
 
 MAINTAINER 蒼時弦也 "docker@frost.tw"
 
 # Version
-ENV NGINX_VERSION 1.10.0
+ENV NGINX_VERSION 1.10.1
 ENV NPS_VERSION 1.11.33.0
 ENV OPENSSL_VERSION 1.0.2g
 
@@ -17,17 +17,13 @@ ENV NGINX_TEMPLATE_DIR /usr/src/nginx
 ENV NGINX_RUNTIME_DIR /usr/src/runtime
 ENV SSL_CERTS_DIR /usr/certs
 
-# Install Build Tools & Dependence
-RUN echo "deb-src http://httpredir.debian.org/debian jessie main\n \
-          deb-src http://httpredir.debian.org/debian jessie-updates main\n \
-          deb-src http://security.debian.org/ jessie/updates main\n \
-          deb http://httpredir.debian.org/debian jessie-backports main\n \
-          deb-src http://httpredir.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \
+ENV DEBIAN_FRONTEND noninteractive
 
-    apt-get update && \
-    apt-get -t jessie-backports build-dep nginx -y --fix-missing && \
-    apt-get install -y build-essential zlib1g-dev libpcre3 libpcre3-dev && \
+# Install Build Tools & Dependence
+RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
+RUN apt-get update && \
     apt-get install wget -y && \
+    apt-get build-dep nginx -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
 
