@@ -46,8 +46,8 @@ server {
         fastcgi_param  SCRIPT_FILENAME  {{FASTCGI_ROOT}}$fastcgi_script_name;
         fastcgi_param  HTTP_HOST $host;
         fastcgi_cache  APP;
-        fastcgi_cache_valid 200 302 60m;
-        fastcgi_cache_valid 404 1m;
+        fastcgi_cache_valid 200 302 {{FASTCGI_CACHE_SUCCESS_TIME}};
+        fastcgi_cache_valid 404 {{FASTCGI_CACHE_NOTFOUND_TIME}};
         fastcgi_cache_bypass $no_cache;
         fastcgi_no_cache $no_cache;
         include        fastcgi_params;
