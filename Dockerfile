@@ -9,7 +9,7 @@ MAINTAINER 蒼時弦也 "docker@frost.tw"
 # Version
 ENV NGINX_VERSION 1.10.1
 ENV NPS_VERSION 1.11.33.0
-ENV OPENSSL_VERSION 1.0.2g
+ENV OPENSSL_VERSION 1.0.2h
 
 # Setup Environment
 ENV MODULE_DIR /usr/src/nginx-modules
