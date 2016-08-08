@@ -1,4 +1,4 @@
-Nginx Pagespeed[![](https://badge.imagelayers.io/elct9620/nginx-pagespeed:latest.svg)](https://imagelayers.io/?images=elct9620/nginx-pagespeed:latest 'Get your own badge on imagelayers.io')
+Nginx Pagespeed[![](https://images.microbadger.com/badges/image/elct9620/nginx-pagespeed.svg)](https://microbadger.com/images/elct9620/nginx-pagespeed "Get your own image badge on microbadger.com")
 ===
 
 Docker image include Nginx and Pagespeed module.
