@@ -21,7 +21,7 @@ The new version provide options to customize Nginx config.
 ### Host static files
 
 ```
-docker run -v $(pwd)/www:/var/html/www elct9620/nginx-pagespeed
+docker run -v $(pwd)/www:/var/www/html elct9620/nginx-pagespeed
 ```
 
 ### Run with customize config
