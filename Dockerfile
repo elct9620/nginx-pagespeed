@@ -2,13 +2,13 @@
 # Nginx with Pagespeed
 ###
 
-FROM ubuntu:trusty
+FROM ubuntu:18.04
 
 MAINTAINER 蒼時弦也 "docker@frost.tw"
 
 # Version
-ENV NGINX_VERSION 1.10.1
-ENV NPS_VERSION 1.11.33.0
+ENV NGINX_VERSION 1.14.0
+ENV NPS_VERSION 1.13.35.2
 ENV OPENSSL_VERSION 1.0.2h
 
 # Setup Environment
@@ -21,8 +21,9 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install Build Tools & Dependence
 RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
-RUN apt-get update && \
-    apt-get install wget -y && \
+RUN sed -i -- "s/# deb-src/deb-src/g" /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install wget uuid-dev -y && \
     apt-get build-dep nginx -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
@@ -47,13 +48,13 @@ RUN apt-get update && \
 
     # Install Addational Module
     cd ${MODULE_DIR} && \
-    wget -q --no-check-certificate https://github.com/pagespeed/ngx_pagespeed/archive/release-${NPS_VERSION}-beta.tar.gz && \
-    tar zxf release-${NPS_VERSION}-beta.tar.gz && \
-    rm -rf release-${NPS_VERSION}-beta.tar.gz && \
-    cd ngx_pagespeed-release-${NPS_VERSION}-beta/ && \
-    wget -q --no-check-certificate https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz && \
-    tar zxf ${NPS_VERSION}.tar.gz && \
-    rm -rf ${NPS_VERSION}.tar.gz && \
+    wget -q https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}-stable.tar.gz && \
+    tar zxf v${NPS_VERSION}-stable.tar.gz && \
+    rm -rf v${NPS_VERSION}-stable.tar.gz && \
+    cd incubator-pagespeed-ngx-${NPS_VERSION}-stable/ && \
+    wget -q https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}-x64.tar.gz && \
+    tar zxf ${NPS_VERSION}-x64.tar.gz && \
+    rm -rf ${NPS_VERSION}-x64.tar.gz && \
 
     # Compile Nginx
     cd /usr/src/nginx-${NGINX_VERSION} && \
@@ -76,7 +77,7 @@ RUN apt-get update && \
     --with-file-aio \
     --with-ipv6 \
     --with-openssl="../openssl-${OPENSSL_VERSION}" \
-    --add-module=${MODULE_DIR}/ngx_pagespeed-release-${NPS_VERSION}-beta \
+    --add-module=${MODULE_DIR}/incubator-pagespeed-ngx-${NPS_VERSION}-stable \
 
     # Install Nginx
     && cd /usr/src/nginx-${NGINX_VERSION} \
